@@ -16,7 +16,7 @@ explore: distribution_centers {}
 
 explore: events {
   join: users {
-    type: left_outer
+    type: inner
     sql_on: ${events.user_id} = ${users.id} ;;
     relationship: many_to_one
   }
@@ -38,6 +38,13 @@ explore: inventory_items {
 
 explore: order_items {
   persist_for: "4 hours"
+  sql_always_where: ${created_date} >= '2018-01-01' ;; #Filter to restrict order created in and after 2018
+  always_filter: {
+    filters: {
+      field: order_items.created_date
+      value: "1 year" # Default Filter for current year orders
+    }
+  }
   join: users {
     type: left_outer
     sql_on: ${order_items.user_id} = ${users.id} ;;
@@ -67,6 +74,7 @@ explore: products {
   join: distribution_centers {
     type: left_outer
     sql_on: ${products.distribution_center_id} = ${distribution_centers.id} ;;
+    fields: [distribution_centers.name,distribution_centers.latitude,distribution_centers.longitude]
     relationship: many_to_one
   }
 }

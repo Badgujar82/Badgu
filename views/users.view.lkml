@@ -13,6 +13,15 @@ view: users {
     sql: ${TABLE}."AGE" ;;
   }
 
+  dimension: age_tier {
+    type: tier
+    tiers: [0,10,20,30,40,50,60,70,80,90,100]
+    style: interval
+    sql: ${age} ;;
+value_format: "###"
+  }
+
+
   dimension: city {
     type: string
     sql: ${TABLE}."CITY" ;;
