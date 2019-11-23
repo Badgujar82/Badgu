@@ -36,6 +36,12 @@ view: order_items {
     sql: ${TABLE}."DELIVERED_AT" ;;
   }
 
+  dimension_group: DeliverySpeed{
+    type: duration
+    sql_start:  ${created_date};;
+    sql_end: ${delivered_date} ;;
+  }
+
   dimension: inventory_item_id {
     type: number
     # hidden: yes
@@ -94,6 +100,12 @@ view: order_items {
   measure: count {
     type: count
     drill_fields: [detail*]
+  }
+
+  measure: avg_order_duration {
+    type: average
+    sql: ${days_DeliverySpeed} ;;
+    value_format_name: decimal_0
   }
 
   # ----- Sets of fields for drilling ------

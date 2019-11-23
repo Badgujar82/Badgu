@@ -79,6 +79,7 @@ value_format: "###"
 
   dimension: state {
     type: string
+    map_layer_name: us_states
     sql: ${TABLE}."STATE" ;;
   }
 
